@@ -9,9 +9,9 @@
         app:showAsAction="withText" />
 
     <item
-        android:id="@+id/hot_bottom_nav_item"
-        android:icon="@drawable/ic_hot"
-        android:title="@string/hot"
+        android:id="@+id/news_bottom_nav_item"
+        android:icon="@drawable/ic_news"
+        android:title="@string/news"
         app:showAsAction="withText" />
 
     <item

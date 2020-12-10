@@ -11,9 +11,11 @@ import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
 import com.bluelinelabs.conductor.archlifecycle.LifecycleController
 import leakcanary.AppWatcher
+import org.koin.core.component.KoinComponent
 
 abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundle? = null) :
-    LifecycleController(args) {
+    LifecycleController(args),
+    KoinComponent {
 
     private var shouldBeGarbageCollected = false
 
@@ -42,7 +44,10 @@ abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundl
     }
 
     @CallSuper
-    override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
+    override fun onChangeEnded(
+        changeHandler: ControllerChangeHandler,
+        changeType: ControllerChangeType
+    ) {
         super.onChangeEnded(changeHandler, changeType)
         shouldBeGarbageCollected = !changeType.isEnter
         if (isDestroyed) {

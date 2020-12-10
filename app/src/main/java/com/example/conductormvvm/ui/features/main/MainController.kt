@@ -10,12 +10,12 @@ import com.example.conductormvvm.R
 import com.example.conductormvvm.databinding.ActivityMainBinding
 import com.example.conductormvvm.ui.features.add.AddController
 import com.example.conductormvvm.ui.features.home.HomeController
-import com.example.conductormvvm.ui.features.hot.HotController
+import com.example.conductormvvm.ui.features.news.NewsController
 import com.example.conductormvvm.ui.features.settings.SettingsController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
- * This cannot be injected into controller, since activity will be leaked. I can test this BTW.
+ * This cannot be injected into controller, since activity will be leaked. I can test leaking BTW.
  * */
 class MainController(private val mainActivity: MainActivity, savedInstanceState: Bundle?) {
 
@@ -39,8 +39,8 @@ class MainController(private val mainActivity: MainActivity, savedInstanceState:
                     navigate(HomeController())
                     true
                 }
-                R.id.hot_bottom_nav_item -> {
-                    navigate(HotController())
+                R.id.news_bottom_nav_item -> {
+                    navigate(NewsController())
                     true
                 }
                 R.id.add_bottom_nav_item -> {

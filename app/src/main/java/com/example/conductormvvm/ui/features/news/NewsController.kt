@@ -1,12 +1,12 @@
-package com.example.conductormvvm.ui.features.settings
+package com.example.conductormvvm.ui.features.news
 
 import com.example.conductormvvm.R
 import com.example.conductormvvm.ui.base.BaseController
 import org.koin.core.component.inject
 
-class SettingsController : BaseController(R.layout.controller_settings) {
+class NewsController : BaseController(R.layout.controller_news) {
 
-    private val viewModel: SettingsViewModel by inject()
+    private val viewModel: NewsViewModel by inject()
 
     override fun onViewCreated() {
         viewModel.toString()

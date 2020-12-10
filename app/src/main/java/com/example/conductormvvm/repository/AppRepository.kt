@@ -3,22 +3,21 @@ package com.example.conductormvvm.repository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import timber.log.Timber
 
 class AppRepository {
 
-    private val _globalEvents: MutableSharedFlow<GlobalEventData> = MutableSharedFlow()
+    private val _globalEvents: MutableSharedFlow<GlobalEvent> = MutableSharedFlow()
 
-    val globalEvents: SharedFlow<GlobalEventData>
+    val globalEvents: SharedFlow<GlobalEvent>
         get() = _globalEvents
 
     fun startEmittingGlobalEvents() {
         GlobalScope.launch {
             yield()
             repeat(10000) { i ->
-                val globalEvent = GlobalEventData(content = i.toString())
+                val globalEvent = GlobalEvent(content = i.toString())
                 _globalEvents.emit(globalEvent)
-                delay(100)
+                delay(1000)
             }
         }
     }
@@ -53,4 +52,4 @@ data class HomeData(val content: String)
 data class NewsData(val content: String)
 data class AddData(val content: String)
 data class SettingsData(val content: String)
-data class GlobalEventData(val content: String)
+data class GlobalEvent(val content: String)

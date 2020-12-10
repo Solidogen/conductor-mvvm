@@ -9,7 +9,7 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.example.conductormvvm.R
 import com.example.conductormvvm.databinding.ActivityMainBinding
-import com.example.conductormvvm.repository.GlobalEventData
+import com.example.conductormvvm.repository.GlobalEvent
 import com.example.conductormvvm.ui.features.add.AddController
 import com.example.conductormvvm.ui.features.home.HomeController
 import com.example.conductormvvm.ui.features.news.NewsController
@@ -67,8 +67,8 @@ class MainController(private val mainActivity: MainActivity, savedInstanceState:
         return router.handleBack()
     }
 
-    fun globalEventReceived(globalEventData: GlobalEventData) {
-        Timber.d("DBG Receiving global event in Controller: $globalEventData")
+    fun globalEventReceived(globalEvent: GlobalEvent) {
+        Timber.d("DBG Receiving global event in Controller: $globalEvent")
         binding.bottomNavView.setBackgroundColor(
             listOf(Color.BLACK, Color.DKGRAY, Color.MAGENTA, Color.GREEN).random()
         )

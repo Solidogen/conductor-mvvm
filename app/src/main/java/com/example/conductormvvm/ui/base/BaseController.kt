@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
@@ -15,9 +17,10 @@ import org.koin.core.component.KoinComponent
 
 abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundle? = null) :
     LifecycleController(args),
-    KoinComponent {
+    KoinComponent, ViewModelStoreOwner {
 
     private var shouldBeGarbageCollected = false
+    private val viewModelStore = ViewModelStore()
 
     init {
         addLifecycleListener(object : Controller.LifecycleListener() {
@@ -38,6 +41,7 @@ abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundl
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()
+        viewModelStore.clear()
         if (shouldBeGarbageCollected) {
             observeMemoryLeaks()
         }
@@ -53,6 +57,10 @@ abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundl
         if (isDestroyed) {
             observeMemoryLeaks()
         }
+    }
+
+    final override fun getViewModelStore(): ViewModelStore {
+        return viewModelStore
     }
 
     protected open fun onViewCreated() = Unit

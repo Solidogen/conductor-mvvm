@@ -59,4 +59,8 @@ class MainController(private val mainActivity: MainActivity, savedInstanceState:
     fun navigate(controller: Controller) {
         router.pushController(RouterTransaction.with(controller))
     }
+
+    fun onPhysicalBackButton(): Boolean {
+        return router.handleBack()
+    }
 }

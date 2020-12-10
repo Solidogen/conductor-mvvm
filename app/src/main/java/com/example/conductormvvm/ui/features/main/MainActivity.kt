@@ -19,4 +19,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.toString()
         // todo subscribe to stateflow + sharedflow
     }
+
+    override fun onBackPressed() {
+        if (!mainController.onPhysicalBackButton()) {
+            super.onBackPressed()
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.example.conductormvvm.ui.features.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,13 +17,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(mainController.bindingRoot)
         mainController.setupViews()
 
-        viewModel.toString()
-        // todo subscribe to stateflow + sharedflow
+        Timber.d(viewModel.toString())
+        subscribeToViewModel()
     }
 
     override fun onBackPressed() {
         if (!mainController.onPhysicalBackButton()) {
             super.onBackPressed()
         }
+    }
+
+    private fun subscribeToViewModel() {
+
     }
 }

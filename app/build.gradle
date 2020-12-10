@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.conductormvvm"
+        applicationId "zzz.conductormvvm"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -49,6 +49,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
     releaseImplementation "com.squareup.leakcanary:leakcanary-object-watcher-android:2.5" // does nothing in release, just adds classes for manual tracking

@@ -1,5 +1,6 @@
 package com.example.conductormvvm.di
 
+import com.example.conductormvvm.repository.AppRepository
 import com.example.conductormvvm.ui.features.add.AddViewModel
 import com.example.conductormvvm.ui.features.home.HomeViewModel
 import com.example.conductormvvm.ui.features.main.MainViewModel
@@ -9,9 +10,10 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { MainViewModel() }
-    viewModel { HomeViewModel() }
-    viewModel { NewsViewModel() }
-    viewModel { AddViewModel() }
-    viewModel { SettingsViewModel() }
+    single { AppRepository() }
+    viewModel { MainViewModel(appRepository = get<AppRepository>()) }
+    viewModel { HomeViewModel(appRepository = get<AppRepository>()) }
+    viewModel { NewsViewModel(appRepository = get<AppRepository>()) }
+    viewModel { AddViewModel(appRepository = get<AppRepository>()) }
+    viewModel { SettingsViewModel(appRepository = get<AppRepository>()) }
 }

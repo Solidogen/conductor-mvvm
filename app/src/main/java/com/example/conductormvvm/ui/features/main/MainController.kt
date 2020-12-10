@@ -1,5 +1,6 @@
 package com.example.conductormvvm.ui.features.main
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
 import com.bluelinelabs.conductor.Conductor
@@ -8,11 +9,13 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.example.conductormvvm.R
 import com.example.conductormvvm.databinding.ActivityMainBinding
+import com.example.conductormvvm.repository.GlobalEventData
 import com.example.conductormvvm.ui.features.add.AddController
 import com.example.conductormvvm.ui.features.home.HomeController
 import com.example.conductormvvm.ui.features.news.NewsController
 import com.example.conductormvvm.ui.features.settings.SettingsController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import timber.log.Timber
 
 /**
  * This cannot be injected into controller, since activity will be leaked. I can test leaking BTW.
@@ -62,5 +65,12 @@ class MainController(private val mainActivity: MainActivity, savedInstanceState:
 
     fun onPhysicalBackButton(): Boolean {
         return router.handleBack()
+    }
+
+    fun globalEventReceived(globalEventData: GlobalEventData) {
+        Timber.d("DBG Receiving global event in Controller: $globalEventData")
+        binding.bottomNavView.setBackgroundColor(
+            listOf(Color.BLACK, Color.DKGRAY, Color.MAGENTA, Color.GREEN).random()
+        )
     }
 }

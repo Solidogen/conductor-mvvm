@@ -1,31 +1,17 @@
 package com.example.conductormvvm.ui.features.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.conductormvvm.repository.AppRepository
-import com.example.conductormvvm.repository.GlobalEvent
-import com.example.conductormvvm.util.extensions.emitEvent
+import androidx.lifecycle.*
+import com.example.conductormvvm.data.GlobalEvent
+import com.example.conductormvvm.repository.GlobalEventRepository
 import com.example.conductormvvm.util.utils.Event
 import kotlinx.coroutines.flow.*
-import timber.log.Timber
 
-class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
+class MainViewModel(private val globalEventRepository: GlobalEventRepository) : ViewModel() {
 
-    private val _globalEvent = MutableLiveData<Event<GlobalEvent>>()
-    val globalEvent: LiveData<Event<GlobalEvent>> get() = _globalEvent
+    val globalEvents: LiveData<Event<GlobalEvent>>
+        get() = globalEventRepository.globalEvents.map { Event(it) }.asLiveData()
 
     init {
-        observeGlobalEvents()
-        appRepository.startEmittingGlobalEvents()
-    }
-
-    private fun observeGlobalEvents() {
-        appRepository.globalEvents
-            .onEach {
-                Timber.d("Main: Receiving global event: $it")
-                _globalEvent.emitEvent(it)
-            }.launchIn(viewModelScope)
+        globalEventRepository.startEmittingGlobalEvents()
     }
 }

@@ -3,33 +3,35 @@ package com.example.conductormvvm.ui.features.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.conductormvvm.util.extensions.observeEvents
-import com.example.conductormvvm.util.utils.EventObserver
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+interface IGlobalUiManagerProvider {
+    val globalUiManager: GlobalUiManager
+}
 
-    private lateinit var mainController: MainController
+class MainActivity : AppCompatActivity(), IGlobalUiManagerProvider {
+
+    override lateinit var globalUiManager: GlobalUiManager
 
     private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainController = MainController(this, savedInstanceState)
-        setContentView(mainController.bindingRoot)
-        mainController.setupViews()
+        globalUiManager = GlobalUiManager(this, savedInstanceState)
+        setContentView(globalUiManager.bindingRoot)
+        globalUiManager.setupViews()
         subscribeToViewModel()
     }
 
     override fun onBackPressed() {
-        if (!mainController.onPhysicalBackButton()) {
+        if (!globalUiManager.onPhysicalBackButton()) {
             super.onBackPressed()
         }
     }
 
     private fun subscribeToViewModel() {
-        viewModel.globalEvent.observeEvents(this) {
-            mainController.globalEventReceived(it)
+        viewModel.globalEvents.observeEvents(this) {
+            globalUiManager.globalEventReceived(it)
         }
     }
 }

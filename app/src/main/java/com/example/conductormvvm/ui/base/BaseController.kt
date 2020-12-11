@@ -12,6 +12,8 @@ import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
 import com.bluelinelabs.conductor.archlifecycle.LifecycleController
+import com.example.conductormvvm.ui.features.main.GlobalUiManager
+import com.example.conductormvvm.ui.features.main.MainActivity
 import leakcanary.AppWatcher
 import org.koin.core.component.KoinComponent
 
@@ -22,6 +24,11 @@ abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundl
     private var shouldBeGarbageCollected = false
     private val viewModelStore = ViewModelStore()
 
+    // todo inject in some activity scope?
+    //  but it will outlive activity on rotation, not sure
+    val globalUiManager: GlobalUiManager?
+        get() = (activity as? MainActivity)?.globalUiManager
+
     init {
         addLifecycleListener(object : Controller.LifecycleListener() {
             override fun postCreateView(controller: Controller, view: View) {
@@ -31,7 +38,8 @@ abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundl
         })
     }
 
-    // todo viewbinding
+    protected open fun onViewCreated() = Unit
+
     final override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup,
@@ -62,8 +70,6 @@ abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundl
     final override fun getViewModelStore(): ViewModelStore {
         return viewModelStore
     }
-
-    protected open fun onViewCreated() = Unit
 
     /**
      * LeakCanary doesn't know how to track Controller lifecycle, so we need to specify it manually

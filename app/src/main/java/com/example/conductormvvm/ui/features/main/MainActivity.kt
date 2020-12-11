@@ -11,9 +11,9 @@ interface IGlobalUiManagerProvider {
 
 class MainActivity : AppCompatActivity(), IGlobalUiManagerProvider {
 
-    override lateinit var globalUiManager: GlobalUiManager
-
     private val viewModel: MainViewModel by viewModel()
+
+    override lateinit var globalUiManager: GlobalUiManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

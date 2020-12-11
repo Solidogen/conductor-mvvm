@@ -14,7 +14,6 @@ import com.example.conductormvvm.ui.features.add.AddController
 import com.example.conductormvvm.ui.features.home.HomeController
 import com.example.conductormvvm.ui.features.news.NewsController
 import com.example.conductormvvm.ui.features.settings.SettingsController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import timber.log.Timber
 
 /**
@@ -38,27 +37,15 @@ class GlobalUiManager(private val mainActivity: MainActivity, savedInstanceState
     }
 
     fun setupViews() {
-        binding.bottomNavView.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            return@OnNavigationItemSelectedListener when (item.itemId) {
-                R.id.home_bottom_nav_item -> {
-                    navigate(HomeController())
-                    true
-                }
-                R.id.news_bottom_nav_item -> {
-                    navigate(NewsController())
-                    true
-                }
-                R.id.add_bottom_nav_item -> {
-                    navigate(AddController())
-                    true
-                }
-                R.id.settings_bottom_nav_item -> {
-                    navigate(SettingsController())
-                    true
-                }
+        binding.bottomNavView.setOnNavigationItemSelectedListener block@{ item ->
+            return@block when (item.itemId) {
+                R.id.home_bottom_nav_item -> navigate(HomeController()).let { true }
+                R.id.news_bottom_nav_item -> navigate(NewsController()).let { true }
+                R.id.add_bottom_nav_item -> navigate(AddController()).let { true }
+                R.id.settings_bottom_nav_item -> navigate(SettingsController()).let { true }
                 else -> false
             }
-        })
+        }
     }
 
     fun navigate(controller: Controller) {

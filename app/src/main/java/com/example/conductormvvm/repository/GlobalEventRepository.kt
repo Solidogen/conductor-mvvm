@@ -5,7 +5,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
 // todo inject dispatcher, inject applicationScope to share flows
-class GlobalEventRepository() {
+class GlobalEventRepository(private val globalScope: CoroutineScope) {
 
     private val _globalEvents: MutableSharedFlow<GlobalEvent> = MutableSharedFlow()
 
@@ -30,5 +30,5 @@ class GlobalEventRepository() {
             emit(globalEvent)
             delay(1000)
         }
-    }//.shareIn() todo try sharing this flow, need scope
+    }.shareIn(globalScope, SharingStarted.Lazily)
 }

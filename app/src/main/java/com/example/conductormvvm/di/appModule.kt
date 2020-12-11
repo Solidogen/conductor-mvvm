@@ -6,11 +6,18 @@ import com.example.conductormvvm.ui.features.home.HomeViewModel
 import com.example.conductormvvm.ui.features.main.MainViewModel
 import com.example.conductormvvm.ui.features.news.NewsViewModel
 import com.example.conductormvvm.ui.features.settings.SettingsViewModel
+import com.example.conductormvvm.util.utils.AppDispatchers
+import com.example.conductormvvm.util.utils.IAppDispatchers
+import com.example.conductormvvm.util.utils.Injection
+import kotlinx.coroutines.MainScope
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appModule = module {
-    single { GlobalEventRepository() }
+    single(named(Injection.GlobalScope)) { MainScope() }
+    single<IAppDispatchers> { AppDispatchers() }
+    single { GlobalEventRepository(globalScope = get(named(Injection.GlobalScope))) }
     single { HomeRepository() }
     single { NewsRepository() }
     single { AddRepository() }

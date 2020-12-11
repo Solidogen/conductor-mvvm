@@ -15,6 +15,7 @@ import com.example.conductormvvm.ui.features.home.HomeController
 import com.example.conductormvvm.ui.features.news.NewsController
 import com.example.conductormvvm.ui.features.settings.SettingsController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import timber.log.Timber
 
 /**
  * This cannot be injected into controller, since activity will be leaked. I can test leaking BTW.
@@ -69,8 +70,6 @@ class GlobalUiManager(private val mainActivity: MainActivity, savedInstanceState
     }
 
     fun globalEventReceived(globalEvent: GlobalEvent) {
-        binding.bottomNavView.setBackgroundColor(
-            listOf(Color.BLACK, Color.DKGRAY, Color.MAGENTA, Color.GREEN).random()
-        )
+        Timber.d("Global event received: $globalEvent")
     }
 }

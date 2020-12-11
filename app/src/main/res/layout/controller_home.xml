@@ -8,9 +8,9 @@
         android:id="@+id/screenNameLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/home"
         android:textSize="20sp"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,12 +20,22 @@
         android:id="@+id/contentTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="@string/loading"
         android:textSize="20sp"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/screenNameLabel"
-        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/screenNameLabel" />
+
+    <Button
+        android:id="@+id/goToSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/go_to_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contentTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

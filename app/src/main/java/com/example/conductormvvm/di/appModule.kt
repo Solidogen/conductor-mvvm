@@ -6,6 +6,7 @@ import com.example.conductormvvm.ui.features.home.HomeViewModel
 import com.example.conductormvvm.ui.features.main.MainViewModel
 import com.example.conductormvvm.ui.features.news.NewsViewModel
 import com.example.conductormvvm.ui.features.settings.SettingsViewModel
+import com.example.conductormvvm.util.utils.ApiCallWrapper
 import com.example.conductormvvm.util.utils.AppDispatchers
 import com.example.conductormvvm.util.utils.IAppDispatchers
 import com.example.conductormvvm.util.utils.Injection
@@ -17,8 +18,9 @@ import org.koin.dsl.module
 val appModule = module {
     single(named(Injection.GlobalScope)) { MainScope() }
     single<IAppDispatchers> { AppDispatchers() }
+    single { ApiCallWrapper() }
     single { GlobalEventRepository(globalScope = get(named(Injection.GlobalScope))) }
-    single { HomeRepository() }
+    single { HomeRepository(apiCallWrapper = get()) }
     single { NewsRepository() }
     single { AddRepository() }
     single { SettingsRepository() }

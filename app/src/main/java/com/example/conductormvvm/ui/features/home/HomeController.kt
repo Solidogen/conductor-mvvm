@@ -1,5 +1,6 @@
 package com.example.conductormvvm.ui.features.home
 
+import androidx.lifecycle.observe
 import com.example.conductormvvm.R
 import com.example.conductormvvm.databinding.ControllerHomeBinding
 import com.example.conductormvvm.ui.base.BaseController

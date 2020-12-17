@@ -24,8 +24,6 @@ abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundl
     private var shouldBeGarbageCollected = false
     private val viewModelStore = ViewModelStore()
 
-    // todo inject in some activity scope?
-    //  but it will outlive activity on rotation, not sure
     val globalUiManager: GlobalUiManager?
         get() = (activity as? MainActivity)?.globalUiManager
 

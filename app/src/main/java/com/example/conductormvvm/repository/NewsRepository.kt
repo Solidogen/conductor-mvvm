@@ -1,6 +1,6 @@
 package com.example.conductormvvm.repository
 
-import com.example.conductormvvm.data.NewsData
+import com.example.conductormvvm.data.domain.NewsData
 import kotlinx.coroutines.delay
 
 class NewsRepository {

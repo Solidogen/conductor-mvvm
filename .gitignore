@@ -18,3 +18,5 @@ local.properties
 output.json
 output-metadata.json
 *.apk
+
+todo.txt

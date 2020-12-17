@@ -1,6 +1,6 @@
 package com.example.conductormvvm.repository
 
-import com.example.conductormvvm.data.SettingsData
+import com.example.conductormvvm.data.domain.SettingsData
 import kotlinx.coroutines.delay
 
 class SettingsRepository {

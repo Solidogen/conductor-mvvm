@@ -1,6 +1,6 @@
 package com.example.conductormvvm.ui.features.main
 
-import android.graphics.Color
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.ViewGroup
 import com.bluelinelabs.conductor.Conductor
@@ -8,12 +8,13 @@ import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.example.conductormvvm.R
-import com.example.conductormvvm.data.GlobalEvent
+import com.example.conductormvvm.data.domain.GlobalEvent
 import com.example.conductormvvm.databinding.ActivityMainBinding
 import com.example.conductormvvm.ui.features.add.AddController
 import com.example.conductormvvm.ui.features.home.HomeController
 import com.example.conductormvvm.ui.features.news.NewsController
 import com.example.conductormvvm.ui.features.settings.SettingsController
+import com.example.conductormvvm.util.utils.ErrorType
 import timber.log.Timber
 
 /**
@@ -58,5 +59,9 @@ class GlobalUiManager(private val mainActivity: MainActivity, savedInstanceState
 
     fun globalEventReceived(globalEvent: GlobalEvent) {
         Timber.d("Global event received: $globalEvent")
+    }
+
+    fun errorReceived(errorType: ErrorType) {
+        AlertDialog.Builder(mainActivity).setMessage(errorType.message).show()
     }
 }

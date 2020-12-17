@@ -1,11 +1,15 @@
 package com.example.conductormvvm.ui.features.home
 
 import androidx.lifecycle.*
-import com.example.conductormvvm.data.HomeData
+import com.example.conductormvvm.data.domain.HomeData
 import com.example.conductormvvm.repository.HomeRepository
+import com.example.conductormvvm.util.utils.ErrorManager
 import kotlinx.coroutines.launch
 
-class HomeViewModel(val homeRepository: HomeRepository) : ViewModel() {
+class HomeViewModel(
+    private val homeRepository: HomeRepository,
+    private val errorManager: ErrorManager
+) : ViewModel() {
 
     private val _homeData = MutableLiveData<HomeData>()
     val homeData: LiveData<HomeData> get() = _homeData
@@ -16,8 +20,9 @@ class HomeViewModel(val homeRepository: HomeRepository) : ViewModel() {
 
     private fun getData() {
         viewModelScope.launch {
-            val homeData = homeRepository.getHomeData()
-            _homeData.value = homeData
+            homeRepository.getHomeData()
+                .onSuccess { _homeData.value = it }
+                .onError { errorManager.handleApiError(it) }
         }
     }
 }

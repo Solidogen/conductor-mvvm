@@ -33,5 +33,8 @@ class MainActivity : AppCompatActivity(), IGlobalUiManagerProvider {
         viewModel.globalEvents.observeEvents(this) {
             globalUiManager.globalEventReceived(it)
         }
+        viewModel.errors.observeEvents(this) {
+            globalUiManager.errorReceived(it)
+        }
     }
 }

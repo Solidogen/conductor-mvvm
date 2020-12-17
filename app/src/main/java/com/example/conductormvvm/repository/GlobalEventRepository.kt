@@ -1,6 +1,6 @@
 package com.example.conductormvvm.repository
 
-import com.example.conductormvvm.data.GlobalEvent
+import com.example.conductormvvm.data.domain.GlobalEvent
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -16,7 +16,8 @@ class GlobalEventRepository(private val globalScope: CoroutineScope) {
         GlobalScope.launch {
             yield()
             repeat(10000) { i ->
-                val globalEvent = GlobalEvent(content = i.toString())
+                val globalEvent =
+                    GlobalEvent(content = i.toString())
                 _globalEvents.emit(globalEvent)
                 delay(1000)
             }
@@ -26,7 +27,8 @@ class GlobalEventRepository(private val globalScope: CoroutineScope) {
     val pureFlowGlobalEvents: Flow<GlobalEvent> = flow {
         yield()
         repeat(10000) { i ->
-            val globalEvent = GlobalEvent(content = i.toString())
+            val globalEvent =
+                GlobalEvent(content = i.toString())
             emit(globalEvent)
             delay(1000)
         }

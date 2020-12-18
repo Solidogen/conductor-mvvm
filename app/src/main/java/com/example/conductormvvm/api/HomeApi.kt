@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface IHomeApi {
 
-    @GET("/")
+    @GET("http://jsonplaceholder.typicode.com/todos/1")
     suspend fun getHomeData() : Response<HomeDataResponse>
 }

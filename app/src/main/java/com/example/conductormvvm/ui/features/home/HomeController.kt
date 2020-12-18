@@ -28,7 +28,7 @@ class HomeController : BaseController(R.layout.controller_home) {
 
     private fun observeViewModel() {
         viewModel.homeData.observe(this) {
-            binding.contentTextView.text = it.content
+            binding.contentTextView.text = it.toString()
         }
     }
 }

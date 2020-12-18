@@ -1,7 +1,7 @@
 package com.example.conductormvvm.repository
 
 import com.example.conductormvvm.data.domain.HomeData
-import com.example.conductormvvm.data.response.HomeDataResponse
+import com.example.conductormvvm.data.mapper.toDomainModel
 import com.example.conductormvvm.datasource.IHomeRemoteDataSource
 import com.example.conductormvvm.util.utils.ApiCallResult
 import com.example.conductormvvm.util.utils.IAppDispatchers
@@ -17,7 +17,3 @@ class HomeRepository(
         appDispatchers = appDispatchers
     )
 }
-
-fun HomeDataResponse.toDomainModel(): HomeData = HomeData(
-    content = content
-)

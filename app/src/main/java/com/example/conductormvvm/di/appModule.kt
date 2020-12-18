@@ -38,8 +38,9 @@ import java.util.concurrent.TimeUnit
 val appModule = module {
     single(named(Injection.GlobalScope)) { MainScope() }
     single<IAppDispatchers> { AppDispatchers() }
-    single { ErrorManager() }
-    single { NavigationManager() }
+
+    single { ErrorManager(get(named(Injection.GlobalScope))) }
+    single { NavigationManager(get(named(Injection.GlobalScope))) }
 
     single {
         HttpLoggingInterceptor().apply {

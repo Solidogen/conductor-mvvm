@@ -6,7 +6,6 @@ import com.example.conductormvvm.ui.base.BaseController
 import com.example.conductormvvm.util.utils.NavDestination
 import com.example.conductormvvm.util.utils.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class HomeController : BaseController(R.layout.controller_home) {
 

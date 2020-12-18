@@ -78,15 +78,15 @@ val appModule = module {
         HomeRemoteDataSource(homeApi = get())
     }
 
-    single { GlobalEventRepository(globalScope = get(named(Injection.GlobalScope))) }
+    single {
+        WebSocketRepository(globalScope = get(named(Injection.GlobalScope)))
+    }
     single { HomeRepository(homeRemoteDataSource = get(), appDispatchers = get()) }
-    single { NewsRepository() }
-    single { AddRepository() }
     single { SettingsRepository() }
 
-    viewModel { MainViewModel(globalEventRepository = get(), errorManager = get()) }
+    viewModel { MainViewModel(webSocketRepository = get(), errorManager = get()) }
     viewModel { HomeViewModel(homeRepository = get(), errorManager = get()) }
-    viewModel { NewsViewModel(newsRepository = get()) }
-    viewModel { AddViewModel(addRepository = get()) }
+    viewModel { NewsViewModel(homeRepository = get(), errorManager = get()) }
+    viewModel { AddViewModel(homeRepository = get(), errorManager = get()) }
     viewModel { SettingsViewModel(settingsRepository = get()) }
 }

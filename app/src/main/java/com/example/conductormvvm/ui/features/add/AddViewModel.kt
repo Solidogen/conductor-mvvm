@@ -5,10 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.conductormvvm.data.domain.AddData
-import com.example.conductormvvm.repository.AddRepository
+import com.example.conductormvvm.repository.HomeRepository
+import com.example.conductormvvm.util.utils.ErrorManager
 import kotlinx.coroutines.launch
 
-class AddViewModel(private val addRepository: AddRepository) : ViewModel() {
+class AddViewModel(
+    private val homeRepository: HomeRepository,
+    private val errorManager: ErrorManager
+) : ViewModel() {
 
     private val _addData = MutableLiveData<AddData>()
     val addData: LiveData<AddData> get() = _addData
@@ -19,8 +23,9 @@ class AddViewModel(private val addRepository: AddRepository) : ViewModel() {
 
     private fun getData() {
         viewModelScope.launch {
-            val addData = addRepository.getAddData()
-            _addData.value = addData
+            homeRepository.getAddData()
+                .onSuccess { _addData.value = it }
+                .onError { errorManager.handleApiError(it) }
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.conductormvvm.repository
 
+import com.example.conductormvvm.data.domain.AddData
 import com.example.conductormvvm.data.domain.HomeData
+import com.example.conductormvvm.data.domain.NewsData
 import com.example.conductormvvm.data.mapper.toDomainModel
 import com.example.conductormvvm.datasource.IHomeRemoteDataSource
 import com.example.conductormvvm.util.utils.ApiCallResult
@@ -13,6 +15,18 @@ class HomeRepository(
 ) {
     suspend fun getHomeData(): ApiCallResult<HomeData> = runCatchingAsync(
         call = { homeRemoteDataSource.getHomeData() },
+        mapper = { it.toDomainModel() },
+        appDispatchers = appDispatchers
+    )
+
+    suspend fun getAddData(): ApiCallResult<AddData> = runCatchingAsync(
+        call = { homeRemoteDataSource.getAddData() },
+        mapper = { it.toDomainModel() },
+        appDispatchers = appDispatchers
+    )
+
+    suspend fun getNewsData(): ApiCallResult<NewsData> = runCatchingAsync(
+        call = { homeRemoteDataSource.getNewsData() },
         mapper = { it.toDomainModel() },
         appDispatchers = appDispatchers
     )

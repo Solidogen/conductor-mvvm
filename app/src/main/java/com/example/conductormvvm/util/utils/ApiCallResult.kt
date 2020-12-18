@@ -28,7 +28,7 @@ sealed class ApiCallResult<T> {
             when (e) {
                 is RemoteException -> Error(
                     errorType = ErrorType.RemoteError(
-                        message = e.message.orEmpty(),
+                        message = e.message,
                         statusCode = e.statusCode
                     )
                 )
@@ -85,8 +85,11 @@ suspend inline fun <T, R> runCatchingAsync(
         }
     }
 
-class RemoteException(message: String, val statusCode: StatusCode, cause: Throwable? = null) :
-    IOException(message, cause)
+class RemoteException(
+    override val message: String,
+    val statusCode: StatusCode,
+    cause: Throwable? = null
+) : IOException(message, cause)
 
 fun <T> Response<T>.bodyOrThrow(): T = takeIf { it.isSuccessful }?.body() ?: throw RemoteException(
     message = errorBody()?.string().orEmpty(),

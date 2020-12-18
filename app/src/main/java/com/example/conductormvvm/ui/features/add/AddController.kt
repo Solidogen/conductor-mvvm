@@ -19,7 +19,7 @@ class AddController : BaseController(R.layout.controller_add) {
 
     private fun observeViewModel() {
         viewModel.addData.observe(this) {
-            binding.contentTextView.text = it.content
+            binding.contentTextView.text = it.toString()
         }
     }
 }

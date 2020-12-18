@@ -21,7 +21,7 @@ class NewsController : BaseController(R.layout.controller_news) {
 
     private fun observeViewModel() {
         viewModel.newsData.observe(this) {
-            binding.contentTextView.text = it.content
+            binding.contentTextView.text = it.toString()
         }
     }
 }

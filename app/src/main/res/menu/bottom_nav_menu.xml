@@ -15,9 +15,9 @@
         app:showAsAction="withText" />
 
     <item
-        android:id="@+id/add_bottom_nav_item"
-        android:icon="@drawable/ic_add"
-        android:title="@string/add"
+        android:id="@+id/shop_bottom_nav_item"
+        android:icon="@drawable/ic_shop"
+        android:title="@string/shop"
         app:showAsAction="withText" />
 
     <item

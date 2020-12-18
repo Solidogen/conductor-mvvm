@@ -1,9 +1,9 @@
 package com.example.conductormvvm.data.mapper
 
-import com.example.conductormvvm.data.domain.AddData
+import com.example.conductormvvm.data.domain.ShopData
 import com.example.conductormvvm.data.domain.HomeData
 import com.example.conductormvvm.data.domain.NewsData
-import com.example.conductormvvm.data.response.AddDataResponse
+import com.example.conductormvvm.data.response.ShopDataResponse
 import com.example.conductormvvm.data.response.HomeDataResponse
 import com.example.conductormvvm.data.response.NewsDataResponse
 
@@ -14,7 +14,7 @@ fun HomeDataResponse.toDomainModel(): HomeData = HomeData(
     completed = completed
 )
 
-fun AddDataResponse.toDomainModel(): AddData = AddData(
+fun ShopDataResponse.toDomainModel(): ShopData = ShopData(
     userId = userId,
     id = id,
     title = title,

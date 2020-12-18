@@ -1,6 +1,6 @@
 package com.example.conductormvvm.api
 
-import com.example.conductormvvm.data.response.AddDataResponse
+import com.example.conductormvvm.data.response.ShopDataResponse
 import com.example.conductormvvm.data.response.HomeDataResponse
 import com.example.conductormvvm.data.response.NewsDataResponse
 import retrofit2.Response
@@ -12,7 +12,7 @@ interface IHomeApi {
     suspend fun getHomeData() : Response<HomeDataResponse>
 
     @GET("http://jsonplaceholder.typicode.com/todos/2")
-    suspend fun getAddData() : Response<AddDataResponse>
+    suspend fun getShopData() : Response<ShopDataResponse>
 
     @GET("http://jsonplaceholder.typicode.com/todos/3")
     suspend fun getNewsData() : Response<NewsDataResponse>

@@ -5,7 +5,7 @@ import com.example.conductormvvm.api.IHomeApi
 import com.example.conductormvvm.datasource.HomeRemoteDataSource
 import com.example.conductormvvm.datasource.IHomeRemoteDataSource
 import com.example.conductormvvm.repository.*
-import com.example.conductormvvm.ui.features.add.AddViewModel
+import com.example.conductormvvm.ui.features.shop.ShopViewModel
 import com.example.conductormvvm.ui.features.home.HomeViewModel
 import com.example.conductormvvm.ui.features.main.MainViewModel
 import com.example.conductormvvm.ui.features.news.NewsViewModel
@@ -14,6 +14,7 @@ import com.example.conductormvvm.util.utils.AppDispatchers
 import com.example.conductormvvm.util.utils.observable.ErrorManager
 import com.example.conductormvvm.util.utils.IAppDispatchers
 import com.example.conductormvvm.util.utils.Injection
+import com.example.conductormvvm.util.utils.observable.NavigationManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.MainScope
@@ -33,6 +34,7 @@ val appModule = module {
     single(named(Injection.GlobalScope)) { MainScope() }
     single<IAppDispatchers> { AppDispatchers() }
     single { ErrorManager() }
+    single { NavigationManager() }
 
     single {
         HttpLoggingInterceptor().apply {
@@ -40,15 +42,8 @@ val appModule = module {
         }
     }
 
-    single<Moshi> {
-        Moshi.Builder()
-            .addLast(KotlinJsonAdapterFactory())
-            .build()
-    }
-
-    single<Converter.Factory> {
-        MoshiConverterFactory.create(get())
-    }
+    single<Moshi> { Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build() }
+    single<Converter.Factory> { MoshiConverterFactory.create(get()) }
 
     single<Retrofit.Builder> {
         Retrofit.Builder()
@@ -70,23 +65,28 @@ val appModule = module {
             .build()
     }
 
-    single<IHomeApi> {
-        get<Retrofit>().create(IHomeApi::class.java)
-    }
+    single<IHomeApi> { get<Retrofit>().create(IHomeApi::class.java) }
+    single<IHomeRemoteDataSource> { HomeRemoteDataSource(homeApi = get()) }
 
-    single<IHomeRemoteDataSource> {
-        HomeRemoteDataSource(homeApi = get())
-    }
-
-    single {
-        WebSocketRepository(globalScope = get(named(Injection.GlobalScope)))
-    }
+    single { WebSocketRepository(globalScope = get(named(Injection.GlobalScope))) }
     single { HomeRepository(homeRemoteDataSource = get(), appDispatchers = get()) }
     single { SettingsRepository() }
 
-    viewModel { MainViewModel(webSocketRepository = get(), errorManager = get(), navigationManager = get()) }
-    viewModel { HomeViewModel(homeRepository = get(), errorManager = get(), navigationManager = get()) }
+    viewModel {
+        MainViewModel(
+            webSocketRepository = get(),
+            errorManager = get(),
+            navigationManager = get()
+        )
+    }
+    viewModel {
+        HomeViewModel(
+            homeRepository = get(),
+            errorManager = get(),
+            navigationManager = get()
+        )
+    }
     viewModel { NewsViewModel(homeRepository = get(), errorManager = get()) }
-    viewModel { AddViewModel(homeRepository = get(), errorManager = get()) }
+    viewModel { ShopViewModel(homeRepository = get(), errorManager = get()) }
     viewModel { SettingsViewModel(settingsRepository = get()) }
 }

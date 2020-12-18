@@ -10,7 +10,7 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.example.conductormvvm.R
 import com.example.conductormvvm.data.domain.SocketMessage
 import com.example.conductormvvm.databinding.ActivityMainBinding
-import com.example.conductormvvm.ui.features.add.AddController
+import com.example.conductormvvm.ui.features.shop.ShopController
 import com.example.conductormvvm.ui.features.home.HomeController
 import com.example.conductormvvm.ui.features.news.NewsController
 import com.example.conductormvvm.ui.features.settings.SettingsController
@@ -42,7 +42,7 @@ class GlobalUiManager(private val mainActivity: MainActivity, savedInstanceState
             return@block when (item.itemId) {
                 R.id.home_bottom_nav_item -> navigate(NavDestination.Home).let { true }
                 R.id.news_bottom_nav_item -> navigate(NavDestination.News).let { true }
-                R.id.add_bottom_nav_item -> navigate(NavDestination.Add).let { true }
+                R.id.shop_bottom_nav_item -> navigate(NavDestination.Shop).let { true }
                 R.id.settings_bottom_nav_item -> navigate(NavDestination.Settings).let { true }
                 else -> false
             }
@@ -69,7 +69,7 @@ class GlobalUiManager(private val mainActivity: MainActivity, savedInstanceState
     private fun getControllerForNavDestination(navDestination: NavDestination): Controller {
         return when (navDestination) {
             NavDestination.Home -> HomeController()
-            NavDestination.Add -> AddController()
+            NavDestination.Shop -> ShopController()
             NavDestination.News -> NewsController()
             NavDestination.Settings -> SettingsController()
         }.exhausting

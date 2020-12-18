@@ -8,7 +8,7 @@
         android:id="@+id/screenNameLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/add"
+        android:text="@string/shop"
         android:textSize="20sp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"

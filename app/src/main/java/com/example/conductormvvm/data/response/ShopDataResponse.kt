@@ -2,7 +2,7 @@ package com.example.conductormvvm.data.response
 
 import com.squareup.moshi.Json
 
-data class AddDataResponse(
+data class ShopDataResponse(
     @Json(name = "userId")
     val userId: Int,
     @Json(name = "id")

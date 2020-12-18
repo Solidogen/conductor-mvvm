@@ -1,16 +1,16 @@
-package com.example.conductormvvm.ui.features.add
+package com.example.conductormvvm.ui.features.shop
 
 import com.example.conductormvvm.R
-import com.example.conductormvvm.databinding.ControllerAddBinding
+import com.example.conductormvvm.databinding.ControllerShopBinding
 import com.example.conductormvvm.ui.base.BaseController
 import com.example.conductormvvm.util.utils.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class AddController : BaseController(R.layout.controller_add) {
+class ShopController : BaseController(R.layout.controller_shop) {
 
-    private val binding: ControllerAddBinding by viewBinding(ControllerAddBinding::bind)
-    private val viewModel: AddViewModel by viewModel()
+    private val binding: ControllerShopBinding by viewBinding(ControllerShopBinding::bind)
+    private val viewModel: ShopViewModel by viewModel()
 
     override fun onViewCreated() {
         Timber.d(viewModel.toString())
@@ -18,7 +18,7 @@ class AddController : BaseController(R.layout.controller_add) {
     }
 
     private fun observeViewModel() {
-        viewModel.addData.observe(this) {
+        viewModel.shopData.observe(this) {
             binding.contentTextView.text = it.toString()
         }
     }

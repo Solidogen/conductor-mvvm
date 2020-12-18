@@ -8,7 +8,7 @@ import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.example.conductormvvm.R
-import com.example.conductormvvm.data.domain.SocketMessage
+import com.example.conductormvvm.data.domain.FakeSocketMessage
 import com.example.conductormvvm.databinding.ActivityMainBinding
 import com.example.conductormvvm.ui.features.shop.ShopController
 import com.example.conductormvvm.ui.features.home.HomeController
@@ -57,8 +57,8 @@ class GlobalUiManager(private val mainActivity: MainActivity, savedInstanceState
         return router.handleBack()
     }
 
-    fun socketMessageReceived(socketMessage: SocketMessage) {
-        Timber.d("Socket message received: $socketMessage")
+    fun fakeSocketMessageReceived(fakeSocketMessage: FakeSocketMessage) {
+        Timber.d("Fake socket message received: $fakeSocketMessage")
     }
 
     fun errorReceived(errorType: ErrorType) {

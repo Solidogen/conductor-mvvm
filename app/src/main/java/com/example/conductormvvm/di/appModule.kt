@@ -4,10 +4,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.example.conductormvvm.BuildConfig
 import com.example.conductormvvm.api.IHomeApi
-import com.example.conductormvvm.datasource.HomeRemoteDataSource
-import com.example.conductormvvm.datasource.IHomeRemoteDataSource
-import com.example.conductormvvm.datasource.ISettingsLocalDataSource
-import com.example.conductormvvm.datasource.SettingsLocalDataSource
+import com.example.conductormvvm.datasource.*
 import com.example.conductormvvm.repository.*
 import com.example.conductormvvm.ui.features.shop.ShopViewModel
 import com.example.conductormvvm.ui.features.home.HomeViewModel
@@ -86,8 +83,14 @@ val appModule = module {
     single<IHomeRemoteDataSource> { HomeRemoteDataSource(homeApi = get()) }
 
     single<ISettingsLocalDataSource> { SettingsLocalDataSource(sharedPreferences = get()) }
+    single<IWebSocketRemoteDataSource> { WebSocketRemoteDataSource() }
 
-    single { WebSocketRepository(globalScope = get(named(Injection.GlobalScope))) }
+    single {
+        WebSocketRepository(
+            webSocketRemoteDataSource = get(),
+            globalScope = get(named(Injection.GlobalScope))
+        )
+    }
     single { HomeRepository(homeRemoteDataSource = get(), appDispatchers = get()) }
     single { SettingsRepository(settingsLocalDataSource = get()) }
 

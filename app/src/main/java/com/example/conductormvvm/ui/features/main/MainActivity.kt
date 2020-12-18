@@ -25,14 +25,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.socketMessages.observeEvents(this) {
-            globalUiManager.socketMessageReceived(it)
+        viewModel.fakeSocketMessages.observeEvents(this) {
+            globalUiManager.fakeSocketMessageReceived(it)
         }
-        viewModel.errors.observeEvents(this) {
-            globalUiManager.errorReceived(it)
-        }
-        viewModel.navDestination.observeEvents(this) {
-            globalUiManager.navigate(it)
-        }
+        viewModel.errors.observeEvents(this) { globalUiManager.errorReceived(it) }
+        viewModel.navDestination.observeEvents(this) { globalUiManager.navigate(it) }
     }
 }

@@ -1,10 +1,9 @@
 package com.example.conductormvvm.ui.features.home
 
-import androidx.lifecycle.observe
 import com.example.conductormvvm.R
 import com.example.conductormvvm.databinding.ControllerHomeBinding
 import com.example.conductormvvm.ui.base.BaseController
-import com.example.conductormvvm.ui.features.settings.SettingsController
+import com.example.conductormvvm.util.utils.NavDestination
 import com.example.conductormvvm.util.utils.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -22,7 +21,7 @@ class HomeController : BaseController(R.layout.controller_home) {
 
     private fun setupViews() {
         binding.goToSettingsButton.setOnClickListener {
-            globalUiManager?.navigate(SettingsController())
+            viewModel.navigate(NavDestination.Settings)
         }
     }
 

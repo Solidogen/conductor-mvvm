@@ -12,8 +12,6 @@ import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
 import com.bluelinelabs.conductor.archlifecycle.LifecycleController
-import com.example.conductormvvm.ui.features.main.GlobalUiManager
-import com.example.conductormvvm.ui.features.main.MainActivity
 import leakcanary.AppWatcher
 import org.koin.core.component.KoinComponent
 
@@ -23,9 +21,6 @@ abstract class BaseController(@LayoutRes private val layoutRes: Int, args: Bundl
 
     private var shouldBeGarbageCollected = false
     private val viewModelStore = ViewModelStore()
-
-    val globalUiManager: GlobalUiManager?
-        get() = (activity as? MainActivity)?.globalUiManager
 
     init {
         addLifecycleListener(object : Controller.LifecycleListener() {

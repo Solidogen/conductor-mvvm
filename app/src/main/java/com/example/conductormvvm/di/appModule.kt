@@ -11,7 +11,7 @@ import com.example.conductormvvm.ui.features.main.MainViewModel
 import com.example.conductormvvm.ui.features.news.NewsViewModel
 import com.example.conductormvvm.ui.features.settings.SettingsViewModel
 import com.example.conductormvvm.util.utils.AppDispatchers
-import com.example.conductormvvm.util.utils.ErrorManager
+import com.example.conductormvvm.util.utils.observable.ErrorManager
 import com.example.conductormvvm.util.utils.IAppDispatchers
 import com.example.conductormvvm.util.utils.Injection
 import com.squareup.moshi.Moshi
@@ -84,8 +84,8 @@ val appModule = module {
     single { HomeRepository(homeRemoteDataSource = get(), appDispatchers = get()) }
     single { SettingsRepository() }
 
-    viewModel { MainViewModel(webSocketRepository = get(), errorManager = get()) }
-    viewModel { HomeViewModel(homeRepository = get(), errorManager = get()) }
+    viewModel { MainViewModel(webSocketRepository = get(), errorManager = get(), navigationManager = get()) }
+    viewModel { HomeViewModel(homeRepository = get(), errorManager = get(), navigationManager = get()) }
     viewModel { NewsViewModel(homeRepository = get(), errorManager = get()) }
     viewModel { AddViewModel(homeRepository = get(), errorManager = get()) }
     viewModel { SettingsViewModel(settingsRepository = get()) }

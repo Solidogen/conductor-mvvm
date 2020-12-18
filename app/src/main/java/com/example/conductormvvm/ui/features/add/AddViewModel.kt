@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.conductormvvm.data.domain.AddData
 import com.example.conductormvvm.repository.HomeRepository
-import com.example.conductormvvm.util.utils.ErrorManager
+import com.example.conductormvvm.util.utils.observable.ErrorManager
 import kotlinx.coroutines.launch
 
 class AddViewModel(

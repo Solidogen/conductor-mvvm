@@ -1,3 +1,3 @@
 package com.example.conductormvvm.data.domain
 
-data class GlobalEvent(val content: String)
+data class SocketMessage(val content: String)

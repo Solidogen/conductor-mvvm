@@ -5,15 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.conductormvvm.util.extensions.observeEvents
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-interface IGlobalUiManagerProvider {
-    val globalUiManager: GlobalUiManager
-}
-
-class MainActivity : AppCompatActivity(), IGlobalUiManagerProvider {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModel()
-
-    override lateinit var globalUiManager: GlobalUiManager
+    private lateinit var globalUiManager: GlobalUiManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +25,14 @@ class MainActivity : AppCompatActivity(), IGlobalUiManagerProvider {
     }
 
     private fun subscribeToViewModel() {
-        viewModel.globalEvents.observeEvents(this) {
-            globalUiManager.globalEventReceived(it)
+        viewModel.socketMessages.observeEvents(this) {
+            globalUiManager.socketMessageReceived(it)
         }
         viewModel.errors.observeEvents(this) {
             globalUiManager.errorReceived(it)
+        }
+        viewModel.navDestination.observeEvents(this) {
+            globalUiManager.navigate(it)
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.conductormvvm.features.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.asFlow
+import app.cash.turbine.test
 import com.example.conductormvvm.data.domain.HomeData
 import com.example.conductormvvm.data.response.HomeDataResponse
 import com.example.conductormvvm.data.response.NewsDataResponse
@@ -31,13 +32,14 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import kotlin.time.ExperimentalTime
 
 val mockedHomeRemoteDataSource = mockk<IHomeRemoteDataSource>(relaxed = true)
 
 // todo mockk mocks
 val testModule = module {
-    single<CoroutineScope> { TestCoroutineScope() } // maybe this is shit
     single<CoroutineDispatcher> { TestCoroutineDispatcher() }
+    single<CoroutineScope> { TestCoroutineScope(get<CoroutineDispatcher>()) } // maybe this is shit
     single<IAppDispatchers> {
         object : IAppDispatchers {
             override val main: CoroutineDispatcher = get()
@@ -68,16 +70,17 @@ val testModule = module {
 /**
  * Test flow/sharedflow/navigation/livedata/viewmodelscope/appdispatchers test inject/test globalscope inject
  * */
+@ExperimentalTime
 class HomeViewModelTest : KoinTest {
 
     private val viewModel: HomeViewModel by inject()
     private val appDispatchers: IAppDispatchers by inject()
-    private val mainViewModel: MainViewModel by inject()
+    private val navigationManager: NavigationManager by inject()
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    // todo main rule again
+    // todo main rule again?
 
     @Before
     fun beforeTest() {
@@ -94,11 +97,10 @@ class HomeViewModelTest : KoinTest {
     @Test
     fun `test navigation to settings`() {
         runBlocking {
-            mainViewModel.toString()
             viewModel.navigate(NavDestination.Settings)
-            delay(1000)
-            println("JESTEM TU")
-            assertThat(mainViewModel.navDestination.asFlow().first(), equalTo(NavDestination.Settings))
+            navigationManager.navDestination.test {
+                assertThat(expectItem(), equalTo(NavDestination.Settings))
+            }
         }
     }
 
@@ -106,7 +108,9 @@ class HomeViewModelTest : KoinTest {
     fun `test success emitted on successful api call`() {
         coEvery { mockedHomeRemoteDataSource.getHomeData() } returns HomeDataResponse(1, 1, "1", true)
         runBlocking {
-            assertThat(viewModel.homeData.asFlow().first(), equalTo(HomeData(1, 1, "1", true)))
+            viewModel.homeData.asFlow().test {
+                assertThat(expectItem(), equalTo(HomeData(1, 1, "1", true)))
+            }
         }
     }
 
@@ -114,7 +118,9 @@ class HomeViewModelTest : KoinTest {
     fun `test error emitted on failed api call`() {
         coEvery { mockedHomeRemoteDataSource.getHomeData() } throws RemoteException("Error", StatusCode.InternalServerError)
         runBlocking {
-            assertThat(viewModel.homeData.value, equalTo(null))
+            viewModel.homeData.asFlow().test {
+                expectNoEvents()
+            }
         }
     }
 }

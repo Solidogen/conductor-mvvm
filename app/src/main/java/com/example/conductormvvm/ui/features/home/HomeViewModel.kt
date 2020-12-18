@@ -8,6 +8,7 @@ import com.example.conductormvvm.util.utils.observable.ICanNavigate
 import com.example.conductormvvm.util.utils.observable.NavigationManager
 import kotlinx.coroutines.launch
 
+// todo test savedStateHandle on process death
 class HomeViewModel(
     private val homeRepository: HomeRepository,
     private val errorManager: ErrorManager,

@@ -7,6 +7,8 @@ import com.example.conductormvvm.util.utils.NavDestination
 import com.example.conductormvvm.util.utils.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+// todo try to cache tabs data and controller savedInstanceState with InMemoryCache, to have iOS style bottom nav.
+//  especially on scrollable lists
 class HomeController : BaseController(R.layout.controller_home) {
 
     private val binding: ControllerHomeBinding by viewBinding(ControllerHomeBinding::bind)

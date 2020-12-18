@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
+/**
+ * Enables navigation unit testing
+ * */
 interface ICanNavigate {
     fun navigate(navDestination: NavDestination)
 }

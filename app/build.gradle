@@ -53,17 +53,17 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
-    def retrofit_version = '2.8.1'
+    def retrofit_version = '2.9.0'
     def moshi_version = '1.11.0'
-    def okhttp_version = '4.6.0'
-    def okhttp_logging_interceptor_version = '4.5.0'
+    def okhttp_version = '4.9.0'
 
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_logging_interceptor_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
+    implementation 'androidx.security:security-crypto:1.0.0-rc03'
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
     releaseImplementation "com.squareup.leakcanary:leakcanary-object-watcher-android:2.5" // does nothing in release, just adds classes for manual tracking

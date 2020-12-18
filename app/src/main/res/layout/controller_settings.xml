@@ -16,11 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/contentTextView"
-        android:layout_width="0dp"
+    <CheckBox
+        android:id="@+id/isUserRichCheckbox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/loading"
+        android:text="@string/is_user_rich"
         android:textSize="20sp"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/screenNameLabel"

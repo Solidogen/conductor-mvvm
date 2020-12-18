@@ -14,7 +14,6 @@ class HomeController : BaseController(R.layout.controller_home) {
     private val viewModel: HomeViewModel by viewModel()
 
     override fun onViewCreated() {
-        Timber.d(viewModel.toString())
         setupViews()
         observeViewModel()
     }

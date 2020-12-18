@@ -15,7 +15,6 @@ class NewsController : BaseController(R.layout.controller_news) {
     private val viewModel: NewsViewModel by viewModel()
 
     override fun onViewCreated() {
-        Timber.d(viewModel.toString())
         observeViewModel()
     }
 

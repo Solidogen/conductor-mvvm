@@ -1,9 +1,13 @@
 package com.example.conductormvvm.di
 
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.example.conductormvvm.BuildConfig
 import com.example.conductormvvm.api.IHomeApi
 import com.example.conductormvvm.datasource.HomeRemoteDataSource
 import com.example.conductormvvm.datasource.IHomeRemoteDataSource
+import com.example.conductormvvm.datasource.ISettingsLocalDataSource
+import com.example.conductormvvm.datasource.SettingsLocalDataSource
 import com.example.conductormvvm.repository.*
 import com.example.conductormvvm.ui.features.shop.ShopViewModel
 import com.example.conductormvvm.ui.features.home.HomeViewModel
@@ -21,6 +25,7 @@ import kotlinx.coroutines.MainScope
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.*
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -65,12 +70,25 @@ val appModule = module {
             .build()
     }
 
+    single {
+        val fileName = "2vn345892v0n45"
+        EncryptedSharedPreferences.create(
+            fileName,
+            MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+            androidContext(),
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
+
     single<IHomeApi> { get<Retrofit>().create(IHomeApi::class.java) }
     single<IHomeRemoteDataSource> { HomeRemoteDataSource(homeApi = get()) }
 
+    single<ISettingsLocalDataSource> { SettingsLocalDataSource(sharedPreferences = get()) }
+
     single { WebSocketRepository(globalScope = get(named(Injection.GlobalScope))) }
     single { HomeRepository(homeRemoteDataSource = get(), appDispatchers = get()) }
-    single { SettingsRepository() }
+    single { SettingsRepository(settingsLocalDataSource = get()) }
 
     viewModel {
         MainViewModel(

@@ -1,12 +1,10 @@
 package com.example.conductormvvm.repository
 
-import com.example.conductormvvm.data.domain.SettingsData
-import kotlinx.coroutines.delay
+import com.example.conductormvvm.datasource.ISettingsLocalDataSource
 
-class SettingsRepository {
+class SettingsRepository(private val settingsLocalDataSource: ISettingsLocalDataSource) {
 
-    suspend fun getSettingsData(): SettingsData {
-        delay(2000)
-        return SettingsData("settings-data")
-    }
+    var isUserRich: Boolean
+        get() = settingsLocalDataSource.isUserRich
+        set(value) { settingsLocalDataSource.isUserRich = value }
 }

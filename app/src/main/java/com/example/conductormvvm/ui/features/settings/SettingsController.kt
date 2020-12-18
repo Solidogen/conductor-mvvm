@@ -5,7 +5,6 @@ import com.example.conductormvvm.databinding.ControllerSettingsBinding
 import com.example.conductormvvm.ui.base.BaseController
 import com.example.conductormvvm.util.utils.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class SettingsController : BaseController(R.layout.controller_settings) {
 
@@ -13,13 +12,13 @@ class SettingsController : BaseController(R.layout.controller_settings) {
     private val viewModel: SettingsViewModel by viewModel()
 
     override fun onViewCreated() {
-        Timber.d(viewModel.toString())
-        observeViewModel()
+        setupViews()
     }
 
-    private fun observeViewModel() {
-        viewModel.settingsData.observe(this) {
-            binding.contentTextView.text = it.content
+    private fun setupViews() {
+        binding.isUserRichCheckbox.apply {
+            isChecked = viewModel.isUserRich
+            setOnCheckedChangeListener { _, isChecked -> viewModel.isUserRich = isChecked }
         }
     }
 }

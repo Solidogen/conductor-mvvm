@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.*
 class WebSocketRepository(globalScope: CoroutineScope) {
     /**
      * Shared flow which starts emitting when first subscribed, and only if subscribed.
-     * Helps save resources in backstack controllers when combined with LiveData
+     * Helps save resources in backstack controllers when combined with LiveData.
+     * Sharing in external scope also does not cause to start from 0 on re-subscription
      * */
     val socketMessages: SharedFlow<Event<SocketMessage>> = flow {
         yield()

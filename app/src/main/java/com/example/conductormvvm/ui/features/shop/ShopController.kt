@@ -13,7 +13,6 @@ class ShopController : BaseController(R.layout.controller_shop) {
     private val viewModel: ShopViewModel by viewModel()
 
     override fun onViewCreated() {
-        Timber.d(viewModel.toString())
         observeViewModel()
     }
 

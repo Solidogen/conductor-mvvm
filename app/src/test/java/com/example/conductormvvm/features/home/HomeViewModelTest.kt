@@ -1,45 +1,32 @@
 package com.example.conductormvvm.features.home
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.asFlow
 import app.cash.turbine.test
+import com.example.conductormvvm.utils.TestSuite
 import com.example.conductormvvm.data.domain.HomeData
 import com.example.conductormvvm.data.response.HomeDataResponse
 import com.example.conductormvvm.datasource.IHomeRemoteDataSource
-import com.example.conductormvvm.modules.baseTestModule
 import com.example.conductormvvm.repository.HomeRepository
-import com.example.conductormvvm.rules.MainCoroutineScopeRule
 import com.example.conductormvvm.ui.features.home.HomeViewModel
-import com.example.conductormvvm.util.utils.IAppDispatchers
+import com.example.conductormvvm.util.utils.ErrorType
 import com.example.conductormvvm.util.utils.NavDestination
 import com.example.conductormvvm.util.utils.RemoteException
 import com.example.conductormvvm.util.utils.StatusCode
 import com.example.conductormvvm.util.utils.observable.ErrorManager
 import com.example.conductormvvm.util.utils.observable.NavigationManager
-import com.example.conductormvvm.utils.TestAppDispatchers
+import com.example.conductormvvm.utils.forceInject
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
-import org.junit.rules.TestRule
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.test.KoinTest
-import org.koin.test.KoinTestRule
-import org.koin.test.get
 import org.koin.test.inject
 import kotlin.time.ExperimentalTime
 
@@ -58,28 +45,21 @@ val homeTestModule = module {
 }
 
 @ExperimentalTime
+@ExperimentalCoroutinesApi
 class HomeViewModelTest : KoinTest {
 
     private val viewModel: HomeViewModel by inject()
     private val navigationManager: NavigationManager by inject()
     private val errorManager: ErrorManager by inject()
 
+    private val testSuite = TestSuite(listOf(homeTestModule))
+
     @get:Rule
-    val ruleChain: RuleChain = RuleChain
-        .outerRule(KoinTestRule.create {
-            modules(baseTestModule, homeTestModule)
-        })
-        .around(InstantTaskExecutorRule())
-        .around(
-            MainCoroutineScopeRule(
-                dispatcherInitializer = { get() },
-                scopeInitializer = { get() }
-            )
-        )
+    val ruleChain: RuleChain = testSuite.ruleChain
 
     @Test
-    fun `test navigation to settings emits n`() {
-        runBlocking {
+    fun `navigation to settings emits navigation event`() {
+        testSuite.scope.runBlockingTest {
             navigationManager.navDestination.test {
                 viewModel.navigate(NavDestination.Settings)
                 assertThat(expectItem().peekContent(), equalTo(NavDestination.Settings))
@@ -88,39 +68,59 @@ class HomeViewModelTest : KoinTest {
     }
 
     @Test
-    fun `test success emitted on successful api call`() {
-        coEvery { mockedHomeRemoteDataSource.getHomeData() } returns HomeDataResponse(
-            userId = 1,
-            id = 1,
-            title = "1",
-            completed = true
-        )
-        runBlocking {
+    fun `successful HomeData api call emits HomeData to subscribers`() {
+        coEvery { mockedHomeRemoteDataSource.getHomeData() } returns successfulHomeDataResponse
+        testSuite.scope.runBlockingTest {
             viewModel.homeData.asFlow().test {
-                assertThat(
-                    expectItem(), equalTo(
-                        HomeData(
-                            userId = 1,
-                            id = 1,
-                            title = "1",
-                            completed = true
-                        )
-                    )
-                )
+                assertThat(expectItem(), equalTo(expectedHomeData))
             }
         }
     }
 
     @Test
-    fun `test error emitted on failed api call`() {
-        coEvery { mockedHomeRemoteDataSource.getHomeData() } throws RemoteException(
-            "Error",
-            StatusCode.InternalServerError
-        )
-        runBlocking {
+    fun `failed HomeData api call does NOT emit home data`() {
+        coEvery { mockedHomeRemoteDataSource.getHomeData() } throws internalServerException
+        testSuite.scope.runBlockingTest {
             viewModel.homeData.asFlow().test {
                 expectNoEvents()
             }
         }
     }
+
+    @Test
+    fun `failed HomeData api call emits error to subscribers`() {
+        coEvery { mockedHomeRemoteDataSource.getHomeData() } throws internalServerException
+        testSuite.scope.runBlockingTest {
+            errorManager.errors.test {
+                viewModel.forceInject()
+                assertThat(expectItem().peekContent(), equalTo(internalServerErrorType))
+            }
+        }
+    }
+
+    /////////
+
+    private val successfulHomeDataResponse = HomeDataResponse(
+        userId = 1,
+        id = 1,
+        title = "1",
+        completed = true
+    )
+
+    private val expectedHomeData = HomeData(
+        userId = 1,
+        id = 1,
+        title = "1",
+        completed = true
+    )
+
+    private val internalServerException = RemoteException(
+        message = "Error",
+        statusCode = StatusCode.InternalServerError
+    )
+
+    private val internalServerErrorType = ErrorType.RemoteError(
+        message = "Error",
+        statusCode = StatusCode.InternalServerError
+    )
 }

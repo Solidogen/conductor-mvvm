@@ -14,7 +14,7 @@ class MainCoroutineScopeRule(
 ) : TestWatcher() {
 
     private val dispatcher by lazy(dispatcherInitializer)
-    private val scope by lazy(scopeInitializer)
+    val scope by lazy(scopeInitializer)
 
     override fun starting(description: Description?) {
         super.starting(description)

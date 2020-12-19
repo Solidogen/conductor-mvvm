@@ -2,6 +2,7 @@ package com.example.conductormvvm.ui.features.main
 
 import androidx.lifecycle.*
 import com.example.conductormvvm.data.domain.FakeSocketMessage
+import com.example.conductormvvm.data.domain.RealSocketMessage
 import com.example.conductormvvm.repository.WebSocketRepository
 import com.example.conductormvvm.util.utils.observable.ErrorManager
 import com.example.conductormvvm.util.utils.ErrorType
@@ -15,7 +16,10 @@ class MainViewModel(
     private val navigationManager: NavigationManager
 ) : ViewModel() {
 
-    val fakeSocketMessages: LiveData<Event<FakeSocketMessage>>
+    val realSocketMessages: LiveData<RealSocketMessage>
+        get() = webSocketRepository.realSocketMessages.asLiveData()
+
+    val fakeSocketMessages: LiveData<FakeSocketMessage>
         get() = webSocketRepository.fakeSocketMessages.asLiveData()
 
     val errors: LiveData<Event<ErrorType>>

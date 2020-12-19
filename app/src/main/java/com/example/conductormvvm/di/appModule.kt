@@ -16,6 +16,7 @@ import com.example.conductormvvm.util.utils.observable.ErrorManager
 import com.example.conductormvvm.util.utils.IAppDispatchers
 import com.example.conductormvvm.util.utils.Injection
 import com.example.conductormvvm.util.utils.observable.NavigationManager
+import com.example.conductormvvm.util.utils.observable.WebSocketManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.MainScope
@@ -36,8 +37,14 @@ val appModule = module {
     single(named(Injection.GlobalScope)) { MainScope() }
     single<IAppDispatchers> { AppDispatchers() }
 
-    single { ErrorManager(get(named(Injection.GlobalScope))) }
-    single { NavigationManager(get(named(Injection.GlobalScope))) }
+    single { ErrorManager(globalScope = get(named(Injection.GlobalScope))) }
+    single { NavigationManager(globalScope = get(named(Injection.GlobalScope))) }
+    single {
+        WebSocketManager(
+            okHttpClient = get(),
+            globalScope = get(named(Injection.GlobalScope))
+        )
+    }
 
     single {
         HttpLoggingInterceptor().apply {
@@ -83,7 +90,7 @@ val appModule = module {
     single<IHomeRemoteDataSource> { HomeRemoteDataSource(homeApi = get()) }
 
     single<ISettingsLocalDataSource> { SettingsLocalDataSource(sharedPreferences = get()) }
-    single<IWebSocketRemoteDataSource> { WebSocketRemoteDataSource() }
+    single<IWebSocketRemoteDataSource> { WebSocketRemoteDataSource(webSocketManager = get()) }
 
     single {
         WebSocketRepository(
